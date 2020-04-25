@@ -1,0 +1,33 @@
+{
+  "name": "Back-End",
+  "version": "1.0.0",
+  "description": "Buildweek Backend",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon index.js",
+    "start": "node index.js",
+    "test": "cross-env DB_ENV=testing jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/secret-fam-recipe-vi/Back-End.git"
+  },
+  "keywords": [],
+  "author": "Lambda School",
+  "dependencies": {
+    "bcrypt": "^4.0.1",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "helmet": "^3.22.0",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.21.0",
+    "sqlite3": "^4.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3",
+    "jest": "^25.4.0",
+    "supertest": "^4.0.2"
+  }
+}
