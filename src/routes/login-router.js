@@ -8,15 +8,15 @@ const secrets = require('../api/secrets.js');
 router.post("/", (req, res) => {
     let { username, password } = req.body;
   
-    // search for the user using the username
+    // search for the user using the username:
     Users.findBy({ username })
-        // getting user from database
+        // getting user from database:
       .then(([user]) => {
-        // if we find the user, then also check that passwords match... compareSync decrypts then compares.
+        // if we find the user, then also check that passwords match... compareSync decrypts then compares:
         if (user && bcrypt.compareSync(password, user.password)) {
-          // produce a token
+          // produce a token:
           const token = generateToken(user);
-          // send the token to the client
+          // send the token to the client:
           res.status(200).json({ message: "Welcome!", token });
         } else {
           res.status(401).json({ message: "You cannot pass!" });
@@ -28,7 +28,7 @@ router.post("/", (req, res) => {
       });
 
   function generateToken(user) {
-    // the data
+    // the data:
     const payload = {
       userId: user.id,
       username: user.username,

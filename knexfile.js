@@ -21,17 +21,7 @@ module.exports = {
     },
   },
 
-  // production: {
-  //   client: 'sqlite3',
-  //   connection: process.env.DATABASE_URL,
-  //   migrations: {
-  //     tableName: 'knex_migrations'
-  //   },
-  //   migrations: {
-  //     directory: './src/data/migrations'
-  //   },
-  //   seeds: {
-  //     directory: './src/data/seeds'
-  //   }
-  // }
+ // Set up for production... Deploy to heroku.
+
 };
+

@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken"); 
 
-const secrets = require("./secrets.js"); // helps decrypt password
+const secrets = require("./secrets.js"); // helps decrypt password:
 
 
 module.exports = (req, res, next) => {

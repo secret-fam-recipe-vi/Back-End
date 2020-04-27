@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 
-// @TODO: path for Users
 const Users = require('../models/usersModel.js');
 
 router.post('/', (req, res) => {

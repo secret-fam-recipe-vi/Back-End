@@ -1,7 +1,6 @@
 const router = require("express").Router();
 
-// @TODO: Users path:
-const Users = require("");
+const Users = require("../models/usersModel.js");
 
 router.get("/", (req, res) => {
   console.log("token", req.decodedToken);
