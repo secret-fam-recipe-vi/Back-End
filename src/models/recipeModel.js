@@ -1,39 +1,31 @@
-const db = require('../data/dbConfig');
+const db = require('../data/dbConfig.js');
+
+// this file contains functions on how we interact with recipes table.
 
 module.exports = {
-    findUserRecipes,
-    findRecipeCategories
+    get,
+    add, 
+    findBy,
+    findById
 }
 
-/*
-get user's recipes in mysql: 
-
-SELECT r.*
-, GROUP_CONCAT(c.name, ', ') as categories
-FROM Recipes r 
-JOIN recipe_categories rc ON rc.recipe_id = r.id
-INNER JOIN categories c ON c.id = rc.category_id
-WHERE r.user_id = 2
-GROUP BY r.id
-*/
-//group concat doenst exist in knex...researching best way to handle this
-
-function findUserRecipes(userId) {
-    return db.select('*')
-        .from('recipes as r')
-        .where('r.user_id', userId)
+function get() {
+    return db("recipes")
+    // @TODO: need to filter by user_id so not all recipes are revealed
 }
 
-function findRecipeCategories(recipeId) {
-    return db.select('c.*')
-        .from('categories as c')
-        .join('recipe_categories as rc', 'rc.category_id', 'c.id')
-        .where('rc.recipe_id', recipeId)
-}
+function findBy(filter) {
+    return db("recipes").where(filter);
+  }
+  
+  async function add(recipe) {
+    const [id] = await db("recipes").insert(recipe, "id");
+    return findById(id);
+  }
+  
+  function findById(id) {
+    return db("recipes").where({ id }).first();
+  }
 
+  // @TODO: Add function for deleting recipe
 
-//GET user's recipes
-// -----> https://familyrecipes.com/api/users/22/recipes
-//router.get('/:id/recipes', (req, res) => {
-
-// })
