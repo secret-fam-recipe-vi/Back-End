@@ -3,15 +3,23 @@ const db = require('../data/dbConfig.js');
 // this file contains functions on how we interact with recipes table.
 
 module.exports = {
-    get,
+    getRecipes,
+    addRecipe,
     add, 
     findBy,
     findById
 }
 
-function get() {
+function getRecipes() {
     return db("recipes")
     // @TODO: need to filter by user_id so not all recipes are revealed
+    // .where(user_id == "user_id")
+}
+
+function addRecipe(recipe) {
+    return db('recipes')
+        .insert(recipe, 'id')
+        .then(([id]) => getRecipes())
 }
 
 function findBy(filter) {
