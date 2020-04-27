@@ -31,5 +31,5 @@ Use the path [/recipes](https://secret-fam-recipes.herokuapp.com/api/recipes) fo
 The result will be an array of recipes.
 
 ```bash
-GET https://secret-fam-recipes.herokuapp.com/api/login
+GET https://secret-fam-recipes.herokuapp.com/api/recipes
 ```
