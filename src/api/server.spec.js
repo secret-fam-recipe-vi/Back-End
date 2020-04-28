@@ -77,4 +77,25 @@ describe("server", function () {
                 expect(response.status).toBe(200);
         })
     })
+
+    describe("GET /api/recipes/:id", function () {
+
+        it("should return 200 on success", async () => {
+            const response = await request(server)
+            .get("/api/recipes/1")
+            .set("Content-type", "application/json")
+            .set("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoicmVnaXN0ZXJUZXN0IiwiaWF0IjoxNTg4MDc5OTg5LCJleHAiOjE1ODgxNjYzODl9.A1AR_bscSDYjL8wVhE_EfdnIqJqJ89sLvkzN5RM9jIA")
+            expect(response.status).toBe(200);
+        })
+
+        it("should return Scrambled Eggs as first recipe", function () {
+            return request(server)
+            .get("/api/recipes/1")
+            .set("Content-type", "application/json")
+            .set("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoicmVnaXN0ZXJUZXN0IiwiaWF0IjoxNTg4MDc5OTg5LCJleHAiOjE1ODgxNjYzODl9.A1AR_bscSDYjL8wVhE_EfdnIqJqJ89sLvkzN5RM9jIA")
+            .then(res => {
+                expect(res.body[0].title).toBe("Scrambled Eggs")
+            })
+        })
+    })
 })
