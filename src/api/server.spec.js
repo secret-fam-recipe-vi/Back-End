@@ -99,14 +99,34 @@ describe("server", function () {
         })
     })
 
-    // describe("POST /api/recipes", function () {
+    describe("POST /api/recipes", function () {
 
-    //     it ("should return 200 on success", async () => {
-    //         response = await request(server)
-    //         .get("api/recipes")
-    //         .then(res => {
-    //             expect(response.status).toBe(200)
-    //         })
-    //     })
-    // })
+        it ("should return 201 on success", async () => {
+            response = await request(server)
+            .post("/api/recipes")
+            .set("Content-type", "application/json")
+            .set("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoicmVnaXN0ZXJUZXN0IiwiaWF0IjoxNTg4MDc5OTg5LCJleHAiOjE1ODgxNjYzODl9.A1AR_bscSDYjL8wVhE_EfdnIqJqJ89sLvkzN5RM9jIA")
+            .send({
+                title: "Poached Egg",
+                source: "Auntie",
+                ingredients: "1 egg",
+                instructions: "Crack egg into boiling water, turn heat off and wait 5 min. Remove egg carefully."
+            })
+                expect(response.status).toBe(201)
+        })
+
+        it('should return a message', async () => {
+            response = await request(server)
+                .post("/api/recipes")
+                .set("Content-type", "application/json")
+                .set("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoicmVnaXN0ZXJUZXN0IiwiaWF0IjoxNTg4MDc5OTg5LCJleHAiOjE1ODgxNjYzODl9.A1AR_bscSDYjL8wVhE_EfdnIqJqJ89sLvkzN5RM9jIA")
+                .send({
+                    title: "Poached Egg",
+                    source: "Auntie",
+                    ingredients: "1 egg",
+                    instructions: "Crack egg into boiling water, turn heat off and wait 5 min. Remove egg carefully."
+                })
+                    expect(response.body.message).toBe("Recipe added successfully")
+        });
+    })
 })
