@@ -126,7 +126,7 @@ describe("server", function () {
                     ingredients: "1 egg",
                     instructions: "Crack egg into boiling water, turn heat off and wait 5 min. Remove egg carefully."
                 })
-                    expect(response.body.message).toBe("Recipe added successfully")
+                expect(response.body.message).toBe("Recipe added successfully")
         });
     })
 
@@ -134,7 +134,7 @@ describe("server", function () {
 
         it("should return success message", async () => {
             response = await request(server)
-            .put("/api/recipes/:id")
+            .put("/api/recipes/3")
             .set("Content-type", "application/json")
             .set("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoicmVnaXN0ZXJUZXN0IiwiaWF0IjoxNTg4MDc5OTg5LCJleHAiOjE1ODgxNjYzODl9.A1AR_bscSDYjL8wVhE_EfdnIqJqJ89sLvkzN5RM9jIA")
             .send({
@@ -148,9 +148,9 @@ describe("server", function () {
 
         it("should tell user to log in if no token", async () => {
             response = await request(server)
-            .put("/api/recipes/:id")
+            .put("/api/recipes/3")
             .send({
-                title: "EDITED Poached Egg",
+                title: "Edited Poached Egg",
                 source: "Auntie",
                 ingredients: "1 egg",
                 instructions: "Crack egg into boiling water, turn heat off and wait 5 min. Remove egg carefully."
@@ -160,10 +160,11 @@ describe("server", function () {
     })
 
     describe("DELETE /api/recipes/:id", function () {
-
+        // @TODO: create recipe to be deleted:
+        // save id in variable to use for .delete
         it("should return success message", async () => {
             response = await request(server)
-            .delete("/api/recipes/:id")
+            .delete("/api/recipes/3")
             .set("Content-type", "application/json")
             .set("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoicmVnaXN0ZXJUZXN0IiwiaWF0IjoxNTg4MDc5OTg5LCJleHAiOjE1ODgxNjYzODl9.A1AR_bscSDYjL8wVhE_EfdnIqJqJ89sLvkzN5RM9jIA")
             expect(response.body.message).toBe("Recipe deleted successfully")
