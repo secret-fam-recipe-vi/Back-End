@@ -40,6 +40,9 @@ describe("server", function () {
     })
 
     describe("POST /api/login", function () {
+        beforeEach(async () => {
+            await db("recipes").truncate();
+        })
 
         it("return 200 on success", async () => {
             const response = await request(server)
@@ -78,28 +81,10 @@ describe("server", function () {
         })
     })
 
-    describe("GET /api/recipes/:id", function () {
-
-        it("should return 200 on success", async () => {
-            const response = await request(server)
-            .get("/api/recipes/1")
-            .set("Content-type", "application/json")
-            .set("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoicmVnaXN0ZXJUZXN0IiwiaWF0IjoxNTg4MDc5OTg5LCJleHAiOjE1ODgxNjYzODl9.A1AR_bscSDYjL8wVhE_EfdnIqJqJ89sLvkzN5RM9jIA")
-            expect(response.status).toBe(200);
-        })
-
-        it("should return Scrambled Eggs as first recipe", function () {
-            return request(server)
-            .get("/api/recipes/1")
-            .set("Content-type", "application/json")
-            .set("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoicmVnaXN0ZXJUZXN0IiwiaWF0IjoxNTg4MDc5OTg5LCJleHAiOjE1ODgxNjYzODl9.A1AR_bscSDYjL8wVhE_EfdnIqJqJ89sLvkzN5RM9jIA")
-            .then(res => {
-                expect(res.body[0].title).toBe("Scrambled Eggs")
-            })
-        })
-    })
-
     describe("POST /api/recipes", function () {
+        beforeEach(async () => {
+            await db("recipes").truncate();
+        })
 
         it ("should return 201 on success", async () => {
             response = await request(server)
@@ -132,11 +117,32 @@ describe("server", function () {
         });
     })
 
+    describe("GET /api/recipes/:id", function () {
+
+        it("should return 200 on success", async () => {
+            const response = await request(server)
+            .get("/api/recipes/1")
+            .set("Content-type", "application/json")
+            .set("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoicmVnaXN0ZXJUZXN0IiwiaWF0IjoxNTg4MDc5OTg5LCJleHAiOjE1ODgxNjYzODl9.A1AR_bscSDYjL8wVhE_EfdnIqJqJ89sLvkzN5RM9jIA")
+            expect(response.status).toBe(200);
+        })
+
+        it("should return Scrambled Eggs as first recipe", function () {
+            return request(server)
+            .get("/api/recipes/1")
+            .set("Content-type", "application/json")
+            .set("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoicmVnaXN0ZXJUZXN0IiwiaWF0IjoxNTg4MDc5OTg5LCJleHAiOjE1ODgxNjYzODl9.A1AR_bscSDYjL8wVhE_EfdnIqJqJ89sLvkzN5RM9jIA")
+            .then(res => {
+                expect(res.body[0].title).toBe("Poached Egg")
+            })
+        })
+    })
+
     describe("PUT /api/recipes/:id", function () {
 
         it("should return success message", async () => {
             response = await request(server)
-            .put("/api/recipes/3")
+            .put("/api/recipes/1")
             .set("Content-type", "application/json")
             .set("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoicmVnaXN0ZXJUZXN0IiwiaWF0IjoxNTg4MDc5OTg5LCJleHAiOjE1ODgxNjYzODl9.A1AR_bscSDYjL8wVhE_EfdnIqJqJ89sLvkzN5RM9jIA")
             .send({
@@ -150,7 +156,7 @@ describe("server", function () {
 
         it("should tell user to log in if no token", async () => {
             response = await request(server)
-            .put("/api/recipes/3")
+            .put("/api/recipes/1")
             .send({
                 title: "Edited Poached Egg",
                 source: "Auntie",
@@ -166,7 +172,7 @@ describe("server", function () {
         // save id in variable to use for .delete
         it("should return success message", async () => {
             response = await request(server)
-            .delete("/api/recipes/3")
+            .delete("/api/recipes/1")
             .set("Content-type", "application/json")
             .set("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoicmVnaXN0ZXJUZXN0IiwiaWF0IjoxNTg4MDc5OTg5LCJleHAiOjE1ODgxNjYzODl9.A1AR_bscSDYjL8wVhE_EfdnIqJqJ89sLvkzN5RM9jIA")
             expect(response.body.message).toBe("Recipe deleted successfully")
