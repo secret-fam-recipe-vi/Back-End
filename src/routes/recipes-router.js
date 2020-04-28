@@ -45,7 +45,7 @@ router.post('/', (req, res) => {
     const token = req.headers.authorization;
     const { title, source, ingredients, instructions, notes, categories } = req.body;
 
-    if(token) {
+    if (token) {
       const { userId } = jwt.decode(token);
       const newRecipe = { title, source, ingredients, instructions, notes, user_id: userId };
 
