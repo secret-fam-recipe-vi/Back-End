@@ -6,10 +6,11 @@ module.exports = {
     getUserRecipes,
     getRecipeById,
     addRecipe,
+    remove,
+    updateRecipe,
     addCategory,
-    findBy,
-    update,
-    remove
+    removeCategories
+    // findBy
 }
 
 function getUserRecipes(userId) {
@@ -38,21 +39,36 @@ function addRecipe(recipe) {
         .insert(recipe, 'id')
 }
 
-function addCategory(catId, recipeId) {
-  return db('recipe_categories as rc')
-    .insert({category_id: catId, recipe_id: recipeId}, 'id')
-}
-
-function findBy(filter) {
-    return db("recipes").where(filter);
-}
-
-function update() {
-//update recipe helper function
-}
-
 function remove(recipeId) {
   return db("recipes")
     .where('id', recipeId)
     .del()
 }
+
+function updateRecipe(changes, recipeId) {
+  return db('recipes')
+    .where('id', recipeId)
+    .update(changes)
+    .then(() => {
+      return getRecipeById(recipeId)
+    })
+}
+
+function addCategory(catId, recipeId) {
+  return db('recipe_categories as rc')
+    .insert({category_id: catId, recipe_id: recipeId}, 'id')
+}
+
+function removeCategories(recipeId) {
+  return db('recipe_categories')
+    .where('recipe_id', recipeId)
+    .del()
+}
+
+// function findBy(filter) {
+//     return db("recipes").where(filter);
+// }
+
+
+
+

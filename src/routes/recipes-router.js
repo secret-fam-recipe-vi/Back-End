@@ -75,6 +75,46 @@ router.post('/', (req, res) => {
 })
 
 // EDIT RECIPE // PUT REQUEST
+router.put('/:id', (req, res) => {
+  const token = req.headers.authorization;
+  const { id } = req.params;
+  const { title, source, ingredients, instructions, notes, categories } = req.body;
+
+  if(token) {
+    const { userId } = jwt.decode(token);
+    const updatedRecipe = { title, source, ingredients, instructions, notes, user_id: userId };
+
+    Recipes.updateRecipe(updatedRecipe, id)
+      .then(recipe => {
+        if(categories) {
+          Recipes.removeCategories(id)
+            .then(() => {
+              categories.map(c => {
+                Recipes.addCategory(c, id)
+                  .then(response => {
+                    res.json({ message: "Recipe successfully updated" })
+                  })
+                  .catch(err => {
+                    res.status(500).json({ errorMessage: err.message })
+                  })
+              })
+            })
+            .catch(err => {
+              res.status(500).json({ errorMessage: err.message })
+            })
+
+        } else {
+          res.json({ message: "Recipe updated successfully" })
+        }
+      })
+      .catch(err => {
+        res.status(500).json({ errorMessage: err.message })
+      })
+
+  } else {
+    res.status(400).json({ message: "You must be logged in to update a recipe." })
+  }
+})
 
 // DELETE RECIPE
 router.delete('/:id', (req, res) => {
