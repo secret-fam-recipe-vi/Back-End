@@ -7,7 +7,7 @@ exports.seed = function(knex) {
       return knex('recipes').insert([
         {
           id: 1,
-          user_id: 2,
+          user_id: 5,
           title: "Scrambled Eggs",
           source: "Mom",
           ingredients: "2 eggs",
@@ -15,7 +15,7 @@ exports.seed = function(knex) {
         },
         {
           id: 2,
-          user_id: 2,
+          user_id: 5,
           title: "PB&J",
           ingredients: "2 slices of bread \n 1tsp jam \n 1tbsp peanut butter",
           instructions: "1. Spread jam and peanut butter onto bread \n 2. Smush bread togther",
