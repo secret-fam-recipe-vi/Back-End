@@ -98,4 +98,15 @@ describe("server", function () {
             })
         })
     })
+
+    // describe("POST /api/recipes", function () {
+
+    //     it ("should return 200 on success", async () => {
+    //         response = await request(server)
+    //         .get("api/recipes")
+    //         .then(res => {
+    //             expect(response.status).toBe(200)
+    //         })
+    //     })
+    // })
 })
