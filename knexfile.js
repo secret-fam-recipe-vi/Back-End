@@ -21,6 +21,21 @@ module.exports = {
     },
   },
 
+  // db connection for testing
+  testing: {
+    client: "sqlite3",
+    connection: {
+      filename: './src/data/users.db3',
+    },
+    useNullAsDefault: true,
+    migrations: {
+      directory: './src/data/migrations',
+    },
+    seeds: {
+      directory: './src/data/seeds',
+    },
+  },
+
   // Heroku will look for a 'production' configuration
   production: {
     client: "pg", // npm i pg
