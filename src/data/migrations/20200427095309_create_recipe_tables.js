@@ -7,12 +7,12 @@ exports.up = function(knex) {
         tbl.increments();
         //user_id, foreign key 
         tbl.integer('user_id')
-            .unsigned()
+            // .unsigned()
             .notNullable()
             .references('id')
             .inTable('users')
             .onUpdate('CASCADE')
-            .onDelete('CASCADE');
+            .onDelete('RESTRICT');
         //title, string, required
         tbl.string('title')
             .notNullable();
@@ -42,7 +42,7 @@ exports.up = function(knex) {
         tbl.increments();
         //category_id, foreign key
         tbl.integer('category_id')
-            .unsigned()
+            // .unsigned()
             .notNullable()
             .references('id')
             .inTable('categories')
@@ -50,12 +50,12 @@ exports.up = function(knex) {
             .onDelete('RESTRICT')
         //recipe_id, foreign key
         tbl.integer('recipe_id')
-            .unsigned()
+            // .unsigned()
             .notNullable()
             .references('id')
             .inTable('recipes')
             .onUpdate('CASCADE')
-            .onDelete('CASCADE')
+            .onDelete('RESTRICT')
     })
 };
 
