@@ -52,7 +52,11 @@ router.post('/', (req, res) => {
       Recipes.addRecipe(newRecipe)
         .then(ids => {
           const newRecipeId = ids[0];
-          if(categories) {
+          // console.log({newRecipe})
+          // console.log({ids})
+          // console.log({newRecipeId})
+          // console.log(categories.length)
+          // if(categories && categories.length > 0) {
             categories.map(c => {
               Recipes.addCategory(c, newRecipeId)
               .then(response => {
@@ -62,12 +66,18 @@ router.post('/', (req, res) => {
                 res.status(500).json({ errorMessage: err.message })
               })
             })
-          } else {
-            res.status(201).json({ message: "Recipe added successfully" })
-          }
+          // } else {
+          //   Recipes.getRecipeById(newRecipeId)
+          //     .then(recipe => {
+          //       res.status(201).json({ message: "Recipe added successfully", recipe })
+          //     })
+          //     .catch(err => {
+          //       res.status(500).json({ errorMessage: err.message })
+          //     })
+          // }
         })
         .catch(err => {
-          res.status(500).json({ errorMessage: err.message })
+          res.status(500).json({ errorMessage: "Categories is a required field" })
         })
     } else {
       res.status(400).json({ message: "You must be logged in to do that." })
