@@ -33,3 +33,12 @@ The result will be an array of recipes.
 ```bash
 GET https://secret-fam-recipes.herokuapp.com/api/recipes
 ```
+Use the path [/recipes:id](https://secret-fam-recipes.herokuapp.com/api/recipes:id)
+
+The result will one recipe, by id. Use this endpoint for editing and deleting.
+
+```bash
+GET https://secret-fam-recipes.herokuapp.com/api/recipes:id
+DELETE https://secret-fam-recipes.herokuapp.com/api/recipes:id
+PUT https://secret-fam-recipes.herokuapp.com/api/recipes:id
+```
