@@ -1,5 +1,4 @@
 const db = require('../data/dbConfig.js');
-// const knex = require("knex");
 
 // this file contains functions on how we interact with recipes table.
 
@@ -7,10 +6,11 @@ module.exports = {
     getUserRecipes,
     getRecipeById,
     addRecipe,
+    remove,
+    updateRecipe,
     addCategory,
-    findBy,
-    findById,
-    remove
+    removeCategories
+    // findBy
 }
 
 function getUserRecipes(userId) {
@@ -37,21 +37,6 @@ function getRecipeById(recipeId) {
 function addRecipe(recipe) {
     return db('recipes')
         .insert(recipe, 'id')
-        .then(([id]) => getRecipeById(id))
-}
-
-function addCategory(catId, recipeId) {
-  return db('recipe_categories as rc')
-    .insert({category_id: catId, recipe_id: recipeId}, 'id')
-}
-
-function findBy(filter) {
-    return db("recipes").where(filter);
-}
-
-  
-function findById(id) {
-    return db("recipes").where({ id }).first();
 }
 
 function remove(recipeId) {
@@ -59,3 +44,31 @@ function remove(recipeId) {
     .where('id', recipeId)
     .del()
 }
+
+function updateRecipe(changes, recipeId) {
+  return db('recipes')
+    .where('id', recipeId)
+    .update(changes)
+    .then(() => {
+      return getRecipeById(recipeId)
+    })
+}
+
+function addCategory(catId, recipeId) {
+  return db('recipe_categories as rc')
+    .insert({category_id: catId, recipe_id: recipeId}, 'id')
+}
+
+function removeCategories(recipeId) {
+  return db('recipe_categories')
+    .where('recipe_id', recipeId)
+    .del()
+}
+
+// function findBy(filter) {
+//     return db("recipes").where(filter);
+// }
+
+
+
+
