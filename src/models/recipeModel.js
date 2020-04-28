@@ -1,39 +1,61 @@
 const db = require('../data/dbConfig.js');
+// const knex = require("knex");
 
 // this file contains functions on how we interact with recipes table.
 
 module.exports = {
-    getRecipes,
+    getUserRecipes,
+    getRecipeById,
     addRecipe,
-    add, 
+    addCategory,
     findBy,
-    findById
+    findById,
+    remove
 }
 
-function getRecipes() {
-    return db("recipes")
-    // @TODO: need to filter by user_id so not all recipes are revealed
-    // .where(user_id == "user_id")
+function getUserRecipes(userId) {
+    return db.select('r.*'
+      , db.raw("GROUP_CONCAT(c.name, ', ') as categories")
+      )
+      .from('recipes as r')
+      .join('recipe_categories as rc', 'rc.recipe_id', 'r.id')
+      .join('categories as c', 'rc.category_id', 'c.id')
+      .where('r.user_id', userId)
+      .groupBy('r.id')
+}
+
+function getRecipeById(recipeId) {
+  return db.select('r.*'
+    , db.raw("GROUP_CONCAT(c.name, ', ') as categories")
+    )
+    .from('recipes as r')
+    .join('recipe_categories as rc', 'rc.recipe_id', 'r.id')
+    .join('categories as c', 'rc.category_id', 'c.id')
+    .where('r.id', recipeId)
 }
 
 function addRecipe(recipe) {
     return db('recipes')
         .insert(recipe, 'id')
-        .then(([id]) => getRecipes())
+        .then(([id]) => getRecipeById(id))
+}
+
+function addCategory(catId, recipeId) {
+  return db('recipe_categories as rc')
+    .insert({category_id: catId, recipe_id: recipeId}, 'id')
 }
 
 function findBy(filter) {
     return db("recipes").where(filter);
-  }
+}
+
   
-  async function add(recipe) {
-    const [id] = await db("recipes").insert(recipe, "id");
-    return findById(id);
-  }
-  
-  function findById(id) {
+function findById(id) {
     return db("recipes").where({ id }).first();
-  }
+}
 
-  // @TODO: Add function for deleting recipe
-
+function remove(recipeId) {
+  return db("recipes")
+    .where('id', recipeId)
+    .del()
+}
