@@ -110,7 +110,8 @@ describe("server", function () {
                 title: "Poached Egg",
                 source: "Auntie",
                 ingredients: "1 egg",
-                instructions: "Crack egg into boiling water, turn heat off and wait 5 min. Remove egg carefully."
+                instructions: "Crack egg into boiling water, turn heat off and wait 5 min. Remove egg carefully.",
+                categories: [1]
             })
                 expect(response.status).toBe(201)
         })
@@ -124,7 +125,8 @@ describe("server", function () {
                     title: "Poached Egg",
                     source: "Auntie",
                     ingredients: "1 egg",
-                    instructions: "Crack egg into boiling water, turn heat off and wait 5 min. Remove egg carefully."
+                    instructions: "Crack egg into boiling water, turn heat off and wait 5 min. Remove egg carefully.",
+                    categories: [1]
                 })
                 expect(response.body.message).toBe("Recipe added successfully")
         });
