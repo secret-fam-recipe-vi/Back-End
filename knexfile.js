@@ -1,5 +1,3 @@
-// Update with your config settings.
-
 module.exports = {
 
   development: {
@@ -8,11 +6,6 @@ module.exports = {
       filename: './src/data/users.db3'
     },
     useNullAsDefault: true, 
-    pool: {
-      afterCreate: (conn, done) => {
-        conn.run('PRAGMA foreign_keys = ON', done);
-      },
-    },
     migrations: {
       directory: './src/data/migrations'
     },
@@ -41,12 +34,11 @@ module.exports = {
     client: "pg", // npm i pg
     connection: process.env.DATABASE_URL, // provided by Heroku
     migrations: {
-      directory: './src/data/migrations',
+      directory: "./data/migrations",
     },
     seeds: {
-      directory: './src/data/seeds',
+      directory: "./data/seeds",
     },
   },
 
 };
-

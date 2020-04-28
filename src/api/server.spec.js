@@ -60,7 +60,7 @@ describe("server", function () {
 
     describe("GET /api/recipes", function () {
 
-        it("should ask to login if no token", function () {
+        it("should ask to log in if no token", function () {
             return request(server)
                 .get('/api/recipes')
                 .then(res => {
@@ -128,5 +128,45 @@ describe("server", function () {
                 })
                     expect(response.body.message).toBe("Recipe added successfully")
         });
+    })
+
+    describe("PUT /api/recipes/:id", function () {
+
+        it("should return success message", async () => {
+            response = await request(server)
+            .put("/api/recipes/:id")
+            .set("Content-type", "application/json")
+            .set("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoicmVnaXN0ZXJUZXN0IiwiaWF0IjoxNTg4MDc5OTg5LCJleHAiOjE1ODgxNjYzODl9.A1AR_bscSDYjL8wVhE_EfdnIqJqJ89sLvkzN5RM9jIA")
+            .send({
+                title: "EDITED Poached Egg",
+                source: "Auntie",
+                ingredients: "1 egg",
+                instructions: "Crack egg into boiling water, turn heat off and wait 5 min. Remove egg carefully."
+            })
+            expect(response.body.message).toBe("Recipe updated successfully")
+        })
+
+        it("should tell user to log in if no token", async () => {
+            response = await request(server)
+            .put("/api/recipes/:id")
+            .send({
+                title: "EDITED Poached Egg",
+                source: "Auntie",
+                ingredients: "1 egg",
+                instructions: "Crack egg into boiling water, turn heat off and wait 5 min. Remove egg carefully."
+            })
+            expect(response.body.message).toBe("Please log in.")
+        })
+    })
+
+    describe("DELETE /api/recipes/:id", function () {
+
+        it("should return success message", async () => {
+            response = await request(server)
+            .delete("/api/recipes/:id")
+            .set("Content-type", "application/json")
+            .set("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoicmVnaXN0ZXJUZXN0IiwiaWF0IjoxNTg4MDc5OTg5LCJleHAiOjE1ODgxNjYzODl9.A1AR_bscSDYjL8wVhE_EfdnIqJqJ89sLvkzN5RM9jIA")
+            expect(response.body.message).toBe("Recipe deleted successfully")
+        })
     })
 })
