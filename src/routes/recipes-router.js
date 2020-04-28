@@ -50,15 +50,18 @@ router.post('/', (req, res) => {
       const newRecipe = { title, source, ingredients, instructions, notes, user_id: userId };
 
       Recipes.addRecipe(newRecipe)
-        .then(recipe => {
+        .then(ids => {
+          const newRecipeId = ids[0];
           if(categories) {
-            Recipes.addCategory(c, recipe[0].id)
+            categories.map(c => {
+              Recipes.addCategory(c, newRecipeId)
               .then(response => {
                 res.status(201).json({ message: "Recipe added successfully" })
               })
               .catch(err => {
                 res.status(500).json({ errorMessage: err.message })
               })
+            })
           } else {
             res.status(201).json({ message: "Recipe added successfully" })
           }

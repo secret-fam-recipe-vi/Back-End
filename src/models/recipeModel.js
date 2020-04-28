@@ -36,7 +36,6 @@ function getRecipeById(recipeId) {
 function addRecipe(recipe) {
     return db('recipes')
         .insert(recipe, 'id')
-        .then(([id]) => getRecipeById(id))
 }
 
 function addCategory(catId, recipeId) {
