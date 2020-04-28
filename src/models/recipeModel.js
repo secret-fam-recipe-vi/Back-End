@@ -1,5 +1,4 @@
 const db = require('../data/dbConfig.js');
-// const knex = require("knex");
 
 // this file contains functions on how we interact with recipes table.
 
@@ -9,7 +8,7 @@ module.exports = {
     addRecipe,
     addCategory,
     findBy,
-    findById,
+    update,
     remove
 }
 
@@ -49,9 +48,8 @@ function findBy(filter) {
     return db("recipes").where(filter);
 }
 
-  
-function findById(id) {
-    return db("recipes").where({ id }).first();
+function update() {
+//update recipe helper function
 }
 
 function remove(recipeId) {

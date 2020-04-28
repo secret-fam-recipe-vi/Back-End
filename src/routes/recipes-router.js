@@ -71,6 +71,8 @@ router.post('/', (req, res) => {
     }
 })
 
+// EDIT RECIPE // PUT REQUEST
+
 // DELETE RECIPE
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
