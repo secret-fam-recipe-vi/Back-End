@@ -119,7 +119,7 @@ router.put('/:id', (req, res) => {
 // DELETE RECIPE
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
-  Recipes.delete(id)
+  Recipes.remove(id)
     .then(count => {
       if(count > 0) {
         res.json({ message: "Recipe deleted successfully" })
