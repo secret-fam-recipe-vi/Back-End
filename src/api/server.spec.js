@@ -17,6 +17,15 @@ describe("server", function () {
             expect(res.status).toBe(200);
           });
       });
+
+      it("should return {api: 'up and running :)' in body of response", function() {
+          const expectedBody = { api: "up and running :)" };
+          return request(server)
+            .get("/")
+            .then(res => {
+                expect(res.body).toEqual(expectedBody)
+            });
+      })
     });
 
     describe("POST /api/register", function () {
@@ -39,6 +48,21 @@ describe("server", function () {
                 expect(res.body.username).toBe("registerTest");
                 });
         });
+
+        it('should add user to the database', async function() {
+            const existing = await db('users').where({ username: "tester" })
+            expect(existing).toHaveLength(0);
+
+            await request(server)
+                .post("/api/register")
+                .send({ username: "registerTest", password: "registerPass" })
+                .then(res => {
+                    expect(res.status).toBe(201)
+                })
+
+            const added = await db('users');
+            expect(added).toHaveLength(1);
+        })
     })
 
     describe("POST /api/login", function () {
@@ -61,6 +85,24 @@ describe("server", function () {
                 expect(res.body.message).toBe("Welcome!");
                 });
         });
+
+        it("should generate & return authentication token when login is successful", function() {
+            return request(server)
+                .post("/api/login")
+                .send({ username: "registerTest", password: "registerPass" })
+                .then(res => {
+                    expect(res.body).toHaveProperty('token')
+                })
+        })
+
+        it("should return 401 status if username is not found", function() {
+            return request(server)
+                .post("/api/login")
+                .send({ username: "notAUser", password: "badrequest" })
+                .then(res => {
+                    expect(res.status).toBe(401)
+                })
+        })
     });
 
     describe("GET /api/recipes", function () {
@@ -117,6 +159,29 @@ describe("server", function () {
                 })
                 expect(response.body.message).toBe("Recipe added successfully")
         });
+
+        it('should add recipe to db', async function() {
+            const existing = await db('recipes').where({ title: "Poached Egg" });
+            expect(existing).toHaveLength(0);
+
+            await request(server)
+                .post("/api/recipes")
+                .set("Content-type", "application/json")
+                .set("Authorization", testToken)
+                .send({
+                    title: "Poached Egg",
+                    source: "Auntie",
+                    ingredients: "1 egg",
+                    instructions: "Crack egg into boiling water, turn heat off and wait 5 min. Remove egg carefully.",
+                    categories: [1]
+                })
+                .then(res => {
+                    expect(res.status).toBe(201)
+                })
+                
+            const added = await db('recipes');
+            expect(added).toHaveLength(1);
+        })
     })
 
     describe("GET /api/recipes/:id", function () {
@@ -156,6 +221,14 @@ describe("server", function () {
             expect(response.body.message).toBe("Recipe updated successfully")
         })
 
+        it("should update recipe information in the db", async function() {
+            const original = await db('recipes').where({ title: "Poached Egg" });
+            expect(original).toHaveLength(0);
+
+            const updated = await db('recipes').where({ title: "EDITED Poached Egg" });
+            expect(updated).toHaveLength(1);
+        })
+
         it("should tell user to log in if no token", async () => {
             response = await request(server)
             .put("/api/recipes/1")
@@ -178,6 +251,11 @@ describe("server", function () {
             .set("Content-type", "application/json")
             .set("Authorization", testToken)
             expect(response.body.message).toBe("Recipe deleted successfully")
+        })
+
+        it("should remove recipe from the db", async function() {
+            const deleted = await db('recipes').where({ id: 1 });
+            expect(deleted).toHaveLength(0);
         })
     })
 })
