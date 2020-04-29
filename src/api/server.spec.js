@@ -3,6 +3,8 @@ const request = require("supertest");
 const server = require("./server.js");
 const db = require("../data/dbConfig.js");
 
+const testToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsInVzZXJuYW1lIjoicmVnaXN0ZXJUZXN0MSIsImlhdCI6MTU4ODE3NDk1MywiZXhwIjoxNTg4MjYxMzUzfQ.jBh_JNT3p_3vaPtG_icDkQV95EFLikM4SlcEdeHiGfc"
+
 describe("server", function () {
 
     describe("GET /", function () {
@@ -76,7 +78,7 @@ describe("server", function () {
             const response = await request(server)
                 .get("/api/recipes")
                 .set("Content-type", "application/json")
-                .set("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoicmVnaXN0ZXJUZXN0IiwiaWF0IjoxNTg4MDc5OTg5LCJleHAiOjE1ODgxNjYzODl9.A1AR_bscSDYjL8wVhE_EfdnIqJqJ89sLvkzN5RM9jIA")
+                .set("Authorization", testToken)
                 expect(response.status).toBe(200);
         })
     })
@@ -90,7 +92,7 @@ describe("server", function () {
             response = await request(server)
             .post("/api/recipes")
             .set("Content-type", "application/json")
-            .set("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoicmVnaXN0ZXJUZXN0IiwiaWF0IjoxNTg4MDc5OTg5LCJleHAiOjE1ODgxNjYzODl9.A1AR_bscSDYjL8wVhE_EfdnIqJqJ89sLvkzN5RM9jIA")
+            .set("Authorization", testToken)
             .send({
                 title: "Poached Egg",
                 source: "Auntie",
@@ -105,7 +107,7 @@ describe("server", function () {
             response = await request(server)
                 .post("/api/recipes")
                 .set("Content-type", "application/json")
-                .set("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoicmVnaXN0ZXJUZXN0IiwiaWF0IjoxNTg4MDc5OTg5LCJleHAiOjE1ODgxNjYzODl9.A1AR_bscSDYjL8wVhE_EfdnIqJqJ89sLvkzN5RM9jIA")
+                .set("Authorization", testToken)
                 .send({
                     title: "Poached Egg",
                     source: "Auntie",
@@ -123,7 +125,7 @@ describe("server", function () {
             const response = await request(server)
             .get("/api/recipes/1")
             .set("Content-type", "application/json")
-            .set("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoicmVnaXN0ZXJUZXN0IiwiaWF0IjoxNTg4MDc5OTg5LCJleHAiOjE1ODgxNjYzODl9.A1AR_bscSDYjL8wVhE_EfdnIqJqJ89sLvkzN5RM9jIA")
+            .set("Authorization", testToken)
             expect(response.status).toBe(200);
         })
 
@@ -131,7 +133,7 @@ describe("server", function () {
             return request(server)
             .get("/api/recipes/1")
             .set("Content-type", "application/json")
-            .set("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoicmVnaXN0ZXJUZXN0IiwiaWF0IjoxNTg4MDc5OTg5LCJleHAiOjE1ODgxNjYzODl9.A1AR_bscSDYjL8wVhE_EfdnIqJqJ89sLvkzN5RM9jIA")
+            .set("Authorization", testToken)
             .then(res => {
                 expect(res.body[0].title).toBe("Poached Egg")
             })
@@ -144,7 +146,7 @@ describe("server", function () {
             response = await request(server)
             .put("/api/recipes/1")
             .set("Content-type", "application/json")
-            .set("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoicmVnaXN0ZXJUZXN0IiwiaWF0IjoxNTg4MDc5OTg5LCJleHAiOjE1ODgxNjYzODl9.A1AR_bscSDYjL8wVhE_EfdnIqJqJ89sLvkzN5RM9jIA")
+            .set("Authorization", testToken)
             .send({
                 title: "EDITED Poached Egg",
                 source: "Auntie",
@@ -174,7 +176,7 @@ describe("server", function () {
             response = await request(server)
             .delete("/api/recipes/1")
             .set("Content-type", "application/json")
-            .set("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInVzZXJuYW1lIjoicmVnaXN0ZXJUZXN0IiwiaWF0IjoxNTg4MDc5OTg5LCJleHAiOjE1ODgxNjYzODl9.A1AR_bscSDYjL8wVhE_EfdnIqJqJ89sLvkzN5RM9jIA")
+            .set("Authorization", testToken)
             expect(response.body.message).toBe("Recipe deleted successfully")
         })
     })
