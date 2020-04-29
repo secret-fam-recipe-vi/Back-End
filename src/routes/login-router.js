@@ -35,7 +35,7 @@ router.post("/", (req, res) => {
     };
     const secret = secrets.jwtSecret;
     const options = {
-      expiresIn: "1d",
+      expiresIn: "5d",
     };
     // creating the token:
     return jwt.sign(payload, secret, options);
