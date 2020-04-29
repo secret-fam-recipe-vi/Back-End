@@ -52,29 +52,15 @@ router.post('/', (req, res) => {
       Recipes.addRecipe(newRecipe)
         .then(ids => {
           const newRecipeId = ids[0];
-          // console.log({newRecipe})
-          // console.log({ids})
-          // console.log({newRecipeId})
-          // console.log(categories.length)
-          // if(categories && categories.length > 0) {
-            categories.map(c => {
-              Recipes.addCategory(c, newRecipeId)
-              .then(response => {
-                res.status(201).json({ message: "Recipe added successfully" })
-              })
-              .catch(err => {
-                res.status(500).json({ errorMessage: err.message })
-              })
+          categories.map(c => {
+            Recipes.addCategory(c, newRecipeId)
+            .then(response => {
+              res.status(201).json({ message: "Recipe added successfully" })
             })
-          // } else {
-          //   Recipes.getRecipeById(newRecipeId)
-          //     .then(recipe => {
-          //       res.status(201).json({ message: "Recipe added successfully", recipe })
-          //     })
-          //     .catch(err => {
-          //       res.status(500).json({ errorMessage: err.message })
-          //     })
-          // }
+            .catch(err => {
+              res.status(500).json({ errorMessage: err.message })
+            })
+          })
         })
         .catch(err => {
           res.status(500).json({ errorMessage: "Categories is a required field" })
@@ -96,27 +82,7 @@ router.put('/:id', (req, res) => {
 
     Recipes.updateRecipe(updatedRecipe, id)
       .then(recipe => {
-
-        // if(categories) {
-        //   Recipes.removeCategories(id)
-        //     .then(() => {
-        //       categories.map(c => {
-        //         Recipes.addCategory(c, id)
-        //           .then(response => {
-        //             res.json({ message: "Recipe successfully updated" })
-        //           })
-        //           .catch(err => {
-        //             res.status(500).json({ errorMessage: err.message })
-        //           })
-        //       })
-        //     })
-        //     .catch(err => {
-        //       res.status(500).json({ errorMessage: err.message })
-        //     })
-
-        // } else {
-          res.json({ message: "Recipe updated successfully", recipe })
-        // }
+        res.json({ message: "Recipe updated successfully", recipe })
       })
       .catch(err => {
         res.status(500).json({ errorMessage: err.message })
