@@ -92,30 +92,31 @@ router.put('/:id', (req, res) => {
 
   if(token) {
     const { userId } = jwt.decode(token);
-    const updatedRecipe = { title, source, ingredients, instructions, notes, user_id: userId };
+    const updatedRecipe = { title, source, ingredients, instructions, notes, user_id: userId, id: id };
 
     Recipes.updateRecipe(updatedRecipe, id)
       .then(recipe => {
-        if(categories) {
-          Recipes.removeCategories(id)
-            .then(() => {
-              categories.map(c => {
-                Recipes.addCategory(c, id)
-                  .then(response => {
-                    res.json({ message: "Recipe successfully updated" })
-                  })
-                  .catch(err => {
-                    res.status(500).json({ errorMessage: err.message })
-                  })
-              })
-            })
-            .catch(err => {
-              res.status(500).json({ errorMessage: err.message })
-            })
 
-        } else {
-          res.json({ message: "Recipe updated successfully" })
-        }
+        // if(categories) {
+        //   Recipes.removeCategories(id)
+        //     .then(() => {
+        //       categories.map(c => {
+        //         Recipes.addCategory(c, id)
+        //           .then(response => {
+        //             res.json({ message: "Recipe successfully updated" })
+        //           })
+        //           .catch(err => {
+        //             res.status(500).json({ errorMessage: err.message })
+        //           })
+        //       })
+        //     })
+        //     .catch(err => {
+        //       res.status(500).json({ errorMessage: err.message })
+        //     })
+
+        // } else {
+          res.json({ message: "Recipe updated successfully", recipe })
+        // }
       })
       .catch(err => {
         res.status(500).json({ errorMessage: err.message })
